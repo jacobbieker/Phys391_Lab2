@@ -163,3 +163,8 @@ ordered_v = sorted(ordered_v, reverse=True) #proer ordering for V
 
 pyplot.errorbar(ordered_v, ordered_v, xerr=std_dev_b, yerr=std_dev_v)
 pyplot.show()
+
+print b_zero_point_avg
+print v_zero_point_avg
+print std_dev_v
+print std_dev_b
