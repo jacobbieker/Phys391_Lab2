@@ -14,18 +14,42 @@ F-4x15 519.05   525.19    14.83   -4.78    81.56    0.3
 2) Cut and paste your scripts used to calculate SNR for each image below. If you used excel, type out
 the formula.
 
+from __future__ import division
+__author__ = 'Jacob'
+import math
+import numpy as np
+import matplotlib.pyplot as pyplot
+
+
+def singal_to_noise(flux, s, exposure_time, number_of_images=1, gain=10):
+    return flux * exposure_time * math.sqrt(gain / (((flux / number_of_images) + s) * exposure_time)) #The SNR formula
+
+two_star_data_file = 'two_star_data'
+with open(two_star_data_file, 'r') as f:
+    for line in f:
+        lines = line.strip() #removes the return at end
+        col = line.split() # splits the line into separate columns
+        print singal_to_noise(float(col[4]), math.pi * (float(col[2]) ** 2) * float(col[5]), int(col[6]), 4)
 
 
 3) By what factor is the SNR greater for the 15 min exposure to the 10 min exposure. Based on the
 formula, is this what you expect? What about the added exposure vs the 15 min exposure? Did the
 SNR improve according to what you expect?
 
-
+100.979928482
+109.254205041
+231.148625563
+56.3373095068
+63.8696253875
+132.404195238
 
 
 4) If there is a neighboring star in annulus that measures the sky background, how will that effect the
 flux estimated from the star?
 
+The flux would be measured as lower since the flux from the annulus is subracted from the overall flux which, with a
+star in the annulus, the background flux would be higher, so when the background is subtracted, the main star's flux
+would be lower.
 
 
 Part B:
@@ -94,7 +118,7 @@ V-Val       COOR            R         MAG       FLUX       SKY
 28   841.28     806.46    11.21     -8.92      3686.      3545.
 
 6) Paste your table of SNR values and errors (you don’t need to show the calculation scripts). Data
-should be organized with columns COORDINATES (can either be from B or V) BSNR VSNR mverror
+should be organized with columns COORDINATES (can either be from B or V) BSNR VSNR mVerror
 mBerror
 
 
@@ -221,9 +245,5 @@ Corrected B, in order:
 
 
 
-13) How would the age change if dust lies between our line of sight and the cluster? Dust “reddens”
-
-
-
-starlight by significantly scattering blue light more so than red light.
+13) How would the age change if dust lies between our line of sight and the cluster? Dust “reddens” starlight by significantly scattering blue light more so than red light.
 
