@@ -1,0 +1,135 @@
+Part A:
+
+1) Paste your data for the bright and faint star in all 3 images below. It should be organized into a 6
+row, 6 column table with column headings: COORDINATES, R, MAG, FLUX and SKY
+
+#Star   COORDINATES       R       MAG     FLUX      SKY
+B-10   512.01   586.32    9.81    -5.06    105.7    0.275
+B-15   497.66   558.77    11.20   -5.03    102.5    0.27
+B-4x15 497.65   558.73    9.73    -4.95    95.77    0.2658
+F-10   533.34   552.74    14.96   -4.87    88.34    0.3183
+F-15   519.09   525.23    16.04   -4.84    86.31    0.3122
+F-4x15 519.05   525.19    14.83   -4.78    81.56    0.3
+
+2) Cut and paste your scripts used to calculate SNR for each image below. If you used excel, type out
+the formula.
+
+
+
+3) By what factor is the SNR greater for the 15 min exposure to the 10 min exposure. Based on the
+formula, is this what you expect? What about the added exposure vs the 15 min exposure? Did the
+SNR improve according to what you expect?
+
+
+
+
+4) If there is a neighboring star in annulus that measures the sky background, how will that effect the
+flux estimated from the star?
+
+
+
+Part B:
+
+5) Paste your data for the cluster stars. It should be organized into 2 - 28 row, 6 column tables with
+column headings: COORDINATES, R, MAG, FLUX and SKY
+
+B-Val       COOR            R         MAG       FLUX       SKY
+1    479.51     990.55    24.21     -14.07     426526.    2040.
+2    310.90     920.76    15.38     -12.36     88008.     2039.
+3    373.02     867.02    14.98     -12.22     77507.     2040.
+4    135.69     780.15    18.26     -10.13     11277.     2039.
+5    274.94     638.02    17.56     -13.49     248025.    2040.
+6    250.86     641.01    15.17     -11.01     25460.     2042.
+7    134.67     396.40    17.78     -8.55      2637.      2039.
+8    195.43     190.16    17.16     -11.61     44127.     2041.
+9    317.21     144.09    30.54     -14.47     611634.    2039.
+10   387.84     400.01    15.29     -12.81     133493.    2039.
+11   373.95     475.16    15.65     -12.54     103346.    2039.
+12   383.47     518.92    16.32     -11.82     53541.     2040.
+13   415.01     673.31    19.84     -13.59     272099.    2040.
+14   428.86     786.82    14.33     -7.97      1541.      2040.
+15   542.18     815.72    15.02     -9.92      9316.      2039.
+16   511.89     766.27    13.37     -7.82      1343.      2039.
+17   587.84     685.67    16.40     -11.34     34309.     2039.
+18   642.46     565.60    21.13     -13.67     293701.    2041.
+19   641.54     433.19    16.19     -11.74     49881.     2040.
+20   569.00     405.30    29.10     -14.56     666701.    2039.
+21   638.46     276.91    14.82     -12.43     93713.     2039.
+22   918.43     415.88    14.66     -13.24     197736.    2040.
+23   821.65     575.38    28.86     -14.40     573069.    2040.
+24   873.06     619.50    12.52     -7.77      1285.      2039.
+25   890.90     694.03    14.59     -10.04     10382.     2039.
+26   929.48     744.48    16.33     -7.97      1536.      2039.
+27   853.12     797.43    10.56     -7.59      1087.      2039.
+28   642.77     832.53    15.94     -10.80     20937.     2038.
+
+V-Val       COOR            R         MAG       FLUX       SKY
+1    467.62     1000.17   27.84     -14.36     553406.    3546.
+2    298.88     929.86    12.98     -12.89     143649.    3546.
+3    360.91     876.15    11.15     -12.77     128057.    3547.
+4    130.17     731.91    14.56     -9.05      4180.      3544.
+5    262.56     647.12    21.35     -13.78     326459.    3548.
+6    238.66     650.18    10.68     -11.71     48225.     3554.
+7    122.31     405.78    14.54     -9.21      4809.      3545.
+8    183.36     199.57    14.99     -12.19     75362.     3551.
+9    304.91     153.65    33.45     -14.81     836911.    3545.
+10   375.61     409.33    14.59     -13.16     183668.    3547.
+11   361.72     484.44    12.86     -12.99     156548.    3546.
+12   371.28     528.05    9.41      -12.44     94722.     3546.
+13   402.79     682.55    22.54     -13.89     358217.    3546.
+14   416.94     796.13    8.68      -8.94      3773.      3543.
+15   530.27     824.73    9.74      -10.71     19312.     3546.
+16   499.76     775.25    9.93      -9.43      5910.      3542.
+17   575.89     694.58    10.62     -11.98     61949.     3546.
+18   630.20     574.98    37.47     -14.38     567276.    3547.
+19   629.52     442.57    15.22     -12.26     80477.     3548.
+20   556.55     414.69    31.44     -14.95     951607.    3547.
+21   626.44     286.54    13.38     -12.95     151847.    3545.
+22   906.13     425.24    18.54     -13.60     275201.    3548.
+23   809.65     584.82    30.99     -14.76     798972.    3547.
+24   860.83     628.59    17.98     -8.60      2744.      3545.
+25   878.60     702.93    11.27     -11.03     25748.     3544.
+26   916.87     753.42    10.03     -9.01      4029.      3547.
+27   916.87     753.42    10.03     -9.01      4029.      3547.
+28   841.28     806.46    11.21     -8.92      3686.      3545.
+
+6) Paste your table of SNR values and errors (you don’t need to show the calculation scripts). Data
+should be organized with columns COORDINATES (can either be from B or V) BSNR VSNR mverror
+mBerror
+
+
+
+
+7) Paste your data for the standard stars. It should be organized into 2 - 15 row, 6 column tables with
+column headings: COORDINATES, R, MAG, FLUX and SKY. Include the zero point average and
+standard deviation.
+
+
+
+
+8) Paste your data for your corrected B, V, B-V values and errors
+
+
+
+9) Paste your Hertzsprung-Russell diagram here
+
+
+
+10) Show your calculation steps and answer for the cluster distance.
+
+
+
+11) Percentage from actual value
+
+
+
+12) Calculation steps and answer for cluster age:
+
+
+
+13) How would the age change if dust lies between our line of sight and the cluster? Dust “reddens”
+
+
+
+starlight by significantly scattering blue light more so than red light.
+
