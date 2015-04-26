@@ -59,6 +59,7 @@ with open(two_star_data_file, 'r') as f:
         col = line.split() # splits the line into separate columns
         print singal_to_noise(float(col[4]), math.pi * (float(col[2]) ** 2) * float(col[5]), int(col[6]), 4)
 
+
 of_v = open('v_mag_error.txt', 'w')
 with open(v_mag_data, 'r') as f_v:
     for line in f_v:
@@ -66,6 +67,7 @@ with open(v_mag_data, 'r') as f_v:
         col = line.split() # splits the line into separate columns
         SNR = singal_to_noise(float(col[5]), float(col[3]) * float(col[6]), 1.0/60.0)
         of_v.write(str(SNR) + '\t' + str(mag_error_calc(SNR)) + '\n')
+of_v.close()
 
 of_b = open('b_mag_error.txt', 'w')
 with open(b_mag_data, 'r') as f_b:
@@ -74,7 +76,7 @@ with open(b_mag_data, 'r') as f_b:
         col = line.split() # splits the line into separate columns
         SNR = singal_to_noise(float(col[5]), float(col[3]) * float(col[6]), 1.0/60.0)
         of_b.write(str(SNR) + '\t' + str(mag_error_calc(SNR)) + '\n')
-
+of_b.close()
 
 zero_point_file = open('zero_point.txt', 'w')
 with open(standard_other_mag, 'r') as standard_b:
@@ -85,13 +87,13 @@ with open(standard_other_mag, 'r') as standard_b:
         b_flux = find_standard_flux(float(col[7]), float(col[1]), float(col[2]))
         v_flux = find_standard_flux(float(col[6]), float(col[3]), float(col[4]))
         zero_point_file.write(col[0] + " " + str(zero_point(b_flux, float(col[2]))) + '\t' + str(zero_point(v_flux, float(col[4]))) +  '\n')
-
+zero_point_file.close()
 
 b_zero_point_avg = 0
 v_zero_point_avg = 0
 b_zero_points = []
 v_zero_points = []
-file_one = open('zp_one.txt', 'r')
+file_one = open('zero_point.txt', 'r')
 
 with file_one as zp:
     for lines in zp:
@@ -101,6 +103,8 @@ with file_one as zp:
         print col[2]
         b_zero_points.append(float(col[1]))
         v_zero_points.append(float(col[2]))
+
+file_one.close()
 
 for index in v_zero_points:
     v_zero_point_avg += index
@@ -157,3 +161,5 @@ with open('corrected_data_v.txt', 'r') as data:
 
 ordered_v = sorted(ordered_v, reverse=True) #proer ordering for V
 
+pyplot.errorbar(ordered_v, ordered_v, xerr=std_dev_b, yerr=std_dev_v)
+pyplot.show()
