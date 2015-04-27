@@ -49,6 +49,10 @@ def bv(b,v): #Calculate the BV value
     return b / v
 
 
+def quad_error(b_error, v_error):
+    return math.sqrt((b_error ** 2) + (v_error ** 2))
+
+
 two_star_data_file = 'two_star_data'
 v_mag_data = 'v_mag_data'
 b_mag_data = 'b_mag_data'
@@ -176,7 +180,10 @@ for index, item in enumerate(ordered_v):
 
 ordered_v = sorted(ordered_v, reverse=True) #proer ordering for V
 bv_array = sorted(bv_array) #sorted from smallest to largest
-
+print ordered_v
 #pyplot.errorbar(bv_array, ordered_v, xerr=std_dev_b, yerr=std_dev_v)
 pyplot.scatter(bv_array, ordered_v)
+pyplot.xlabel("B-V")
+pyplot.ylabel("V")
+pyplot.title("M39")
 pyplot.show()
