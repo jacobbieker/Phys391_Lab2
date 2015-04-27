@@ -178,11 +178,31 @@ bv_array = []
 for index, item in enumerate(ordered_v):
     bv_array.append(bv(ordered_b[index], ordered_v[index]))
 
+bv_error = []
+v_mag_error_array = []
+b_mag_error_array = []
+#Finds the error in the proper ordering of V and B mags
+with open('v_mag_error.txt', 'r') as v_mag_error:
+    for lines in v_mag_error:
+        line = lines.strip() #removes the return at end
+        col = lines.split() #splits the line into separate columns
+        v_mag_error_array.append(float(col[1]))
+
+with open('b_mag_error.txt', 'r') as b_mag_error:
+    for lines in b_mag_error:
+        line = lines.strip() #removes the return at end
+        col = lines.split() #splits the line into separate columns
+        b_mag_error_array.append(float(col[1]))
+
+#acutally finding the error
+for index, value in enumerate(v_mag_error_array):
+    bv_error.append(quad_error(b_mag_error_array[index], v_mag_error_array[index]))
+
 ordered_v = sorted(ordered_v, reverse=True) #proer ordering for V
 bv_array = sorted(bv_array) #sorted from smallest to largest
 print ordered_v
-#pyplot.errorbar(bv_array, ordered_v, xerr=std_dev_b, yerr=std_dev_v)
-pyplot.scatter(bv_array, ordered_v)
+pyplot.errorbar(bv_array, ordered_v, xerr=bv_error, yerr=v_mag_error_array, elinewidth=0)
+#pyplot.scatter(bv_array, ordered_v)
 pyplot.xlabel("B-V")
 pyplot.ylabel("V")
 pyplot.title("M39")
