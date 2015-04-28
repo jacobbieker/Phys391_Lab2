@@ -201,7 +201,7 @@ for index, value in enumerate(v_mag_error_array):
 ordered_v = sorted(ordered_v, reverse=True) #proer ordering for V
 bv_array = sorted(bv_array) #sorted from smallest to largest
 print ordered_v
-pyplot.errorbar(bv_array, ordered_v, xerr=bv_error, yerr=v_mag_error_array, elinewidth=0)
+pyplot.errorbar(bv_array, ordered_v, xerr=bv_error, yerr=v_mag_error_array, linestyle='None')
 #pyplot.scatter(bv_array, ordered_v)
 pyplot.xlabel("B-V")
 pyplot.ylabel("V")
