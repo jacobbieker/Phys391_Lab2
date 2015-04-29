@@ -209,6 +209,7 @@ v_mag_error_array = sorted(v_mag_error_array)
 
 pyplot.errorbar(bv_array, ordered_v, xerr=bv_error, yerr=v_mag_error_array, linestyle='None')
 #pyplot.scatter(bv_array, ordered_v)
+pyplot.xlim(0, 2)
 pyplot.xlabel("B-V")
 pyplot.ylabel("V")
 pyplot.title("M39")
