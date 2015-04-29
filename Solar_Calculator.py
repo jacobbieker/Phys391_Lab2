@@ -142,11 +142,15 @@ for val in v_zero_points:
     sum_diffsquared_v = diffsquared_v + sum_diffsquared_v
     std_dev_v = (((sum_diffsquared_v)/(len(v_zero_points) - 1))**(1/2))
 
+ordered_b_flux = []
+ordered_v_flux = []
+
 corrected_data_file = open('corrected_data_b.txt', 'w')
 with open('b_mag_data') as bdf:
     for lines in bdf:
         line = lines.strip() #removes the return at end
         col = lines.split() #splits the line into separate columns
+        ordered_b_flux.append(float(col[5]))
         corrected_data_file.write(str(new_mags(float(col[5]), b_zero_point_avg)) + '\n')
 corrected_data_file.close()
 
@@ -155,11 +159,12 @@ with open('v_mag_data') as vdf:
     for lines in vdf:
         line = lines.strip() #removes the return at end
         col = lines.split() #splits the line into separate columns
+        ordered_v_flux.append(float(col[5]))
         corrected_data_file_v.write(str(new_mags(float(col[5]), v_zero_point_avg)) + '\n')
 corrected_data_file_v.close()
 
 ordered_v = []
-ordered_b = []
+
 with open('corrected_data_v.txt', 'r') as data:
     for lines in data:
         line = lines.strip() #removes the return at end
@@ -170,19 +175,12 @@ with open('corrected_data_b.txt', 'r') as data:
     for lines in data:
         line = lines.strip() #removes the return at end
         col = lines.split() #splits the line into separate columns
-        ordered_b.append(float(col[0]))
+
 
 bv_array = []
 #Now find B-V before reording V
-#for index, item in enumerate(ordered_v):
- #   bv_array.append(bv(ordered_b[index], ordered_v[index]))
-
-with open(standard_other_mag, 'r') as bv_data:
-    bv_data.readline()
-    for lines in bv_data:
-        line = lines.strip() #removes the return at end
-        col = lines.split() #splits the line into separate columns
-        bv_array.append(bv(float(col[2]), float(col[5])))
+for index, item in enumerate(ordered_v):
+    bv_array.append(bv(ordered_b_flux[index], ordered_v_flux[index]))
 
 bv_error = []
 v_mag_error_array = []
