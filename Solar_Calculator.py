@@ -22,7 +22,7 @@ def abs_mag(distnace, apparent_mag): #Uses equation v, sovled for Absolute Mag
 
 
 def zero_point(apparent_mag, flux): #Egn i solved for zeropoint
-    return apparent_mag + (2.5 * math.log10(flux))
+    return apparent_mag - (-2.5 * math.log10(flux))
 
 
 def find_standard_flux(m1, m2, f2): #Gives the F1 from Eqn vi
@@ -92,9 +92,7 @@ with open(standard_other_mag, 'r') as standard_b:
     for line in standard_b:
         lin = line.strip() #removes the return at end
         col = line.split() #splits the line into separate columns
-        b_flux = find_standard_flux(float(col[7]), float(col[1]), float(col[2]))
-        v_flux = find_standard_flux(float(col[6]), float(col[3]), float(col[4]))
-        zero_point_file.write(col[0] + " " + str(zero_point(b_flux, float(col[2]))) + '\t' + str(zero_point(v_flux, float(col[4]))) +  '\n')
+        zero_point_file.write(col[0] + " " + str(zero_point(float(col[6]), float(col[2]))) + '\t' + str(zero_point(float(col[7]), float(col[4]))) +  '\n')
 zero_point_file.close()
 
 b_zero_point_avg = 0
