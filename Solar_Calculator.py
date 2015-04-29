@@ -22,11 +22,11 @@ def abs_mag(distnace, apparent_mag): #Uses equation v, sovled for Absolute Mag
 
 
 def zero_point(apparent_mag, flux): #Egn i solved for zeropoint
-    return apparent_mag + 2.5 * math.log10(flux)
+    return apparent_mag + (2.5 * math.log10(flux))
 
 
 def find_standard_flux(m1, m2, f2): #Gives the F1 from Eqn vi
-    return (10 ** (-2.5 * (m1 - m2))) / f2
+    return (10 ** ((-2.5) * (m1 - m2))) / f2
 
 
 def star_distance(flux, luminosity): #Egn iv solved for distance
@@ -200,6 +200,8 @@ for index, value in enumerate(v_mag_error_array):
 
 ordered_v = sorted(ordered_v, reverse=True) #proer ordering for V
 bv_array = sorted(bv_array) #sorted from smallest to largest
+bv_error = sorted(bv_error)
+v_mag_error_array = sorted(v_mag_error_array)
 print ordered_v
 pyplot.errorbar(bv_array, ordered_v, xerr=bv_error, yerr=v_mag_error_array, linestyle='None')
 #pyplot.scatter(bv_array, ordered_v)
