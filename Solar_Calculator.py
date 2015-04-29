@@ -212,6 +212,8 @@ pyplot.errorbar(bv_array, ordered_v, xerr=bv_error, yerr=v_mag_error_array, line
 #pyplot.scatter(bv_array, ordered_v)
 pyplot.xlim(-0.5, 2)
 pyplot.gca().invert_yaxis()
+pyplot.xticks(np.arange(-0.5, 2, 0.1), rotation=270)
+pyplot.yticks(np.arange(6, 14, 0.5))
 pyplot.xlabel("B-V")
 pyplot.ylabel("V")
 pyplot.title("M39")
