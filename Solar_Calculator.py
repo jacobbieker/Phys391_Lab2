@@ -194,7 +194,7 @@ with open('b_mag_error.txt', 'r') as b_mag_error:
         col = lines.split() #splits the line into separate columns
         b_mag_error_array.append(float(col[1]))
 
-#acutally finding the error
+#actually finding the error
 for index, value in enumerate(v_mag_error_array):
     bv_error.append(quad_error(b_mag_error_array[index], v_mag_error_array[index]))
 
