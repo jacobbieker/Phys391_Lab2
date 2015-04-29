@@ -121,6 +121,7 @@ for index in b_zero_points:
 b_zero_point_avg /= len(b_zero_points)
 v_zero_point_avg /= len(v_zero_points)
 
+print("B-ZP-AVG: " + str(b_zero_point_avg) + " V-ZP: " + str(v_zero_point_avg))
 std_dev_b = 0
 std_dev_v = 0
 
@@ -173,8 +174,15 @@ with open('corrected_data_b.txt', 'r') as data:
 
 bv_array = []
 #Now find B-V before reording V
-for index, item in enumerate(ordered_v):
-    bv_array.append(bv(ordered_b[index], ordered_v[index]))
+#for index, item in enumerate(ordered_v):
+ #   bv_array.append(bv(ordered_b[index], ordered_v[index]))
+
+with open(standard_other_mag, 'r') as bv_data:
+    bv_data.readline()
+    for lines in bv_data:
+        line = lines.strip() #removes the return at end
+        col = lines.split() #splits the line into separate columns
+        bv_array.append(bv(float(col[2]), float(col[5])))
 
 bv_error = []
 v_mag_error_array = []
@@ -200,7 +208,7 @@ ordered_v = sorted(ordered_v, reverse=True) #proer ordering for V
 bv_array = sorted(bv_array) #sorted from smallest to largest
 bv_error = sorted(bv_error)
 v_mag_error_array = sorted(v_mag_error_array)
-print ordered_v
+
 pyplot.errorbar(bv_array, ordered_v, xerr=bv_error, yerr=v_mag_error_array, linestyle='None')
 #pyplot.scatter(bv_array, ordered_v)
 pyplot.xlabel("B-V")
