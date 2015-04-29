@@ -45,8 +45,8 @@ def new_mags(flux, zero_point): #Eqn i
     return (-2.5) * math.log10(flux) + zero_point
 
 
-def bv(b,v): #Calculate the BV value
-    return b / v
+def bv(Fb,Fv): #Calculate the BV value
+    return Fb / Fv
 
 
 def quad_error(b_error, v_error):
@@ -121,7 +121,6 @@ for index in b_zero_points:
 b_zero_point_avg /= len(b_zero_points)
 v_zero_point_avg /= len(v_zero_points)
 
-print("B-ZP-AVG: " + str(b_zero_point_avg) + " V-ZP: " + str(v_zero_point_avg))
 std_dev_b = 0
 std_dev_v = 0
 
@@ -145,6 +144,7 @@ for val in v_zero_points:
 ordered_b_flux = []
 ordered_v_flux = []
 
+print("B-ZP-AVG: " + str(b_zero_point_avg) + " +- " + str(std_dev_b) + " V-ZP: " + str(v_zero_point_avg) + " +- " + str(std_dev_v))
 corrected_data_file = open('corrected_data_b.txt', 'w')
 with open('b_mag_data') as bdf:
     for lines in bdf:
