@@ -164,7 +164,7 @@ with open('v_mag_data') as vdf:
 corrected_data_file_v.close()
 
 ordered_v = []
-
+ordered_b = []
 with open('corrected_data_v.txt', 'r') as data:
     for lines in data:
         line = lines.strip() #removes the return at end
@@ -175,12 +175,13 @@ with open('corrected_data_b.txt', 'r') as data:
     for lines in data:
         line = lines.strip() #removes the return at end
         col = lines.split() #splits the line into separate columns
-
+        ordered_b.append(float(col[0]))
 
 bv_array = []
 #Now find B-V before reording V
 for index, item in enumerate(ordered_v):
-    bv_array.append(bv(ordered_b_flux[index], ordered_v_flux[index]))
+    print (str(index) + " BF " + str(ordered_b_flux[index]) + " VF " + str(ordered_v_flux[index]) + " BV " + str(bv(ordered_b_flux[index], ordered_v_flux[index])))
+    bv_array.append(ordered_b[index] - ordered_v[index])
 
 bv_error = []
 v_mag_error_array = []
@@ -202,14 +203,15 @@ with open('b_mag_error.txt', 'r') as b_mag_error:
 for index, value in enumerate(v_mag_error_array):
     bv_error.append(quad_error(b_mag_error_array[index], v_mag_error_array[index]))
 
-ordered_v = sorted(ordered_v, reverse=True) #proer ordering for V
-bv_array = sorted(bv_array) #sorted from smallest to largest
-bv_error = sorted(bv_error)
-v_mag_error_array = sorted(v_mag_error_array)
+#ordered_v = sorted(ordered_v, reverse=True) #proer ordering for V
+#bv_array = sorted(bv_array) #sorted from smallest to largest
+#bv_error = sorted(bv_error)
+#v_mag_error_array = sorted(v_mag_error_array)
 
 pyplot.errorbar(bv_array, ordered_v, xerr=bv_error, yerr=v_mag_error_array, linestyle='None')
 #pyplot.scatter(bv_array, ordered_v)
-pyplot.xlim(0, 2)
+pyplot.xlim(-0.5, 2)
+pyplot.gca().invert_yaxis()
 pyplot.xlabel("B-V")
 pyplot.ylabel("V")
 pyplot.title("M39")
