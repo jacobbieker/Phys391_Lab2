@@ -217,7 +217,6 @@ pyplot.yticks(np.arange(6, 14, 0.5))
 pyplot.xlabel("B-V")
 pyplot.ylabel("V")
 pyplot.title("M39")
-pyplot.grid(True)
 pyplot.show()
 
 
