@@ -200,16 +200,16 @@ with open('b_mag_error.txt', 'r') as b_mag_error:
         b_mag_error_array.append(float(col[1]))
 
 #actually finding the error
+bv_error_file = open('bv_error.txt', 'w')
 for index, value in enumerate(v_mag_error_array):
     bv_error.append(quad_error(b_mag_error_array[index], v_mag_error_array[index]))
 
-#ordered_v = sorted(ordered_v, reverse=True) #proer ordering for V
-#bv_array = sorted(bv_array) #sorted from smallest to largest
-#bv_error = sorted(bv_error)
-#v_mag_error_array = sorted(v_mag_error_array)
+for value in bv_error:
+    bv_error_file.write(str(value) + '\n')
+
+bv_error_file.close()
 
 pyplot.errorbar(bv_array, ordered_v, xerr=bv_error, yerr=v_mag_error_array, linestyle='None')
-#pyplot.scatter(bv_array, ordered_v)
 pyplot.xlim(-0.5, 2)
 pyplot.gca().invert_yaxis()
 pyplot.xticks(np.arange(-0.5, 2, 0.1), rotation=270)
@@ -217,4 +217,34 @@ pyplot.yticks(np.arange(6, 14, 0.5))
 pyplot.xlabel("B-V")
 pyplot.ylabel("V")
 pyplot.title("M39")
+pyplot.grid(True)
 pyplot.show()
+
+
+def distance_to_cluster(apparent_mag_star, absolute_mag_Sun): #Egn v solved for d
+    return 10 ** ((apparent_mag_star - absolute_mag_Sun + 5) / 5)
+
+medium_distance = distance_to_cluster(11.1, 4.8)
+closest_distance = distance_to_cluster(11.1 - 0.103783671155, 4.8)
+farthest_distance = distance_to_cluster(11.1 + 0.103783671155, 4.8)
+
+print("Med: " + str(medium_distance) + " Small: " + str(closest_distance) + " Large: " + str(farthest_distance))
+
+
+def percent_error(experimental, theoretical): #Calculates the percentage error in a measurement
+    return ((abs(experimental - theoretical)) / theoretical) * 100
+
+#Found distance for M39 is 245.275876 parsecs
+medium_distance_error = percent_error(medium_distance, 245.275876)
+closest_distance_error = percent_error(closest_distance, 245.275876)
+farthest_distance_error = percent_error(farthest_distance, 245.275876)
+
+print("Med: " + str(medium_distance_error) + " Small: " + str(closest_distance_error) + " Large: " + str(farthest_distance_error))
+
+luminosity_ratio_12 = 5910. * (245.275876 ** 2) # Eqn iv solved for L for the brightest man sequence star
+
+print luminosity_ratio_12
+masses = math.log(luminosity_ratio_12, 3.5) #Calculates the Mass from the relationship that L = M ^3.5
+print ("Solar Masses: " + str(masses))
+age = luminosity_ratio_12/masses #Calculates the age based off of the luminosity and the mass
+print ("Age: " + str(age))
