@@ -52,6 +52,12 @@ def bv(Fb,Fv): #Calculate the BV value
 def quad_error(b_error, v_error):
     return math.sqrt((b_error ** 2) + (v_error ** 2))
 
+def quad_array_error(error_array):
+    sum_squared = 0
+    for value in error_array:
+        sum_squared += (value ** 2)
+    return math.sqrt(sum_squared)
+
 
 two_star_data_file = 'two_star_data'
 v_mag_data = 'v_mag_data'
@@ -61,12 +67,16 @@ v_standard_data = 'standard_other_v.txt'
 standard_data = "standard.txt"
 standard_other_mag = 'standard_other_mag.txt'
 
+snr_array = []
 with open(two_star_data_file, 'r') as f:
     for line in f:
         lines = line.strip() #removes the return at end
         col = line.split() # splits the line into separate columns
-        print singal_to_noise(float(col[4]), math.pi * (float(col[2]) ** 2) * float(col[5]), int(col[6]), 4)
+        snr_array.append(singal_to_noise(float(col[4]), math.pi * (float(col[2]) ** 2) * float(col[5]), int(col[6]), 4))
 
+for index, value in enumerate(snr_array):
+    if index > 0:
+        print (str(index) + " Factor: " + str(value) + " Other: " + str(snr_array[index - 1]) + " This Big: " + str(value/snr_array[index - 1]))
 
 of_v = open('v_mag_error.txt', 'w')
 with open(v_mag_data, 'r') as f_v:
@@ -94,6 +104,26 @@ with open(standard_other_mag, 'r') as standard_b:
         col = line.split() #splits the line into separate columns
         zero_point_file.write(col[0] + " " + str(zero_point(float(col[6]), float(col[2]))) + '\t' + str(zero_point(float(col[7]), float(col[4]))) +  '\n')
 zero_point_file.close()
+
+'''
+Error calculations in V zero point and B zero point
+'''
+b_zero_point_error = []
+v_zero_point_error = []
+with open('b_mag_error.txt', 'r') as error_b:
+    for line in error_b:
+        line = line.strip()
+        col = line.split()
+        b_zero_point_error.append(float(col[1]))
+
+zp_error_b = quad_array_error(b_zero_point_error)
+with open('v_mag_error.txt', 'r') as error_v:
+    for line in error_v:
+        line = line.strip()
+        col = line.split()
+        v_zero_point_error.append(float(col[1]))
+
+zp_error_v = quad_array_error(v_zero_point_error)
 
 b_zero_point_avg = 0
 v_zero_point_avg = 0
@@ -144,14 +174,14 @@ for val in v_zero_points:
 ordered_b_flux = []
 ordered_v_flux = []
 
-print("B-ZP-AVG: " + str(b_zero_point_avg) + " +- " + str(std_dev_b) + " V-ZP: " + str(v_zero_point_avg) + " +- " + str(std_dev_v))
+print("B-ZP-AVG: " + str(b_zero_point_avg) + " +- " + str(std_dev_b) + " ZP Error: " + str(zp_error_b) + " Total Error: " + str(std_dev_b+zp_error_b) + "\n" + " V-ZP: " + str(v_zero_point_avg) + " +- " + str(std_dev_v) + " ZP Error: " + str(zp_error_v) +" Total Error: " + str(std_dev_v+zp_error_v))
 corrected_data_file = open('corrected_data_b.txt', 'w')
 with open('b_mag_data') as bdf:
     for lines in bdf:
         line = lines.strip() #removes the return at end
         col = lines.split() #splits the line into separate columns
         ordered_b_flux.append(float(col[5]))
-        corrected_data_file.write(str(new_mags(float(col[5]), b_zero_point_avg)) + '\n')
+        corrected_data_file.write(str(new_mags(float(col[5]), b_zero_point_avg)) + " +- " + str(zp_error_b) + '\n')
 corrected_data_file.close()
 
 corrected_data_file_v = open('corrected_data_v.txt', 'w')
@@ -160,7 +190,7 @@ with open('v_mag_data') as vdf:
         line = lines.strip() #removes the return at end
         col = lines.split() #splits the line into separate columns
         ordered_v_flux.append(float(col[5]))
-        corrected_data_file_v.write(str(new_mags(float(col[5]), v_zero_point_avg)) + '\n')
+        corrected_data_file_v.write(str(new_mags(float(col[5]), v_zero_point_avg)) + " +- " + str(zp_error_v) + '\n')
 corrected_data_file_v.close()
 
 ordered_v = []
@@ -193,11 +223,17 @@ with open('v_mag_error.txt', 'r') as v_mag_error:
         col = lines.split() #splits the line into separate columns
         v_mag_error_array.append(float(col[1]))
 
+for index, value in enumerate(v_mag_error_array):
+    v_mag_error_array[index] = value + v_zero_point_error[index]
+
 with open('b_mag_error.txt', 'r') as b_mag_error:
     for lines in b_mag_error:
         line = lines.strip() #removes the return at end
         col = lines.split() #splits the line into separate columns
         b_mag_error_array.append(float(col[1]))
+
+for index, value in enumerate(b_mag_error_array):
+    b_mag_error_array[index] = value + b_zero_point_error[index]
 
 #actually finding the error
 bv_error_file = open('bv_error.txt', 'w')
