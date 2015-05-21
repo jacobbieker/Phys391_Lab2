@@ -58,6 +58,8 @@ def quad_array_error(error_array):
         sum_squared += (value ** 2)
     return math.sqrt(sum_squared)
 
+def quad_quad_error(b_error, v_error, b_zp_error, v_zp_error):
+    return math.sqrt((b_error ** 2) + (v_error ** 2) + (v_zp_error ** 2) + (b_zp_error ** 2))
 
 two_star_data_file = 'two_star_data'
 v_mag_data = 'v_mag_data'
@@ -254,7 +256,7 @@ with open('v_mag_error.txt', 'r') as v_mag_error:
         v_mag_error_array.append(float(col[1]))
 
 for index, value in enumerate(v_mag_error_array):
-    v_mag_error_array[index] = value + v_zero_point_error[index]
+    v_mag_error_array[index] = value #+ v_zero_point_error[index]
 
 with open('b_mag_error.txt', 'r') as b_mag_error:
     for lines in b_mag_error:
@@ -263,12 +265,12 @@ with open('b_mag_error.txt', 'r') as b_mag_error:
         b_mag_error_array.append(float(col[1]))
 
 for index, value in enumerate(b_mag_error_array):
-    b_mag_error_array[index] = value + b_zero_point_error[index]
+    b_mag_error_array[index] = value #+ b_zero_point_error[index]
 
 #actually finding the error
 bv_error_file = open('bv_error.txt', 'w')
 for index, value in enumerate(v_mag_error_array):
-    bv_error.append(quad_error(b_mag_error_array[index], v_mag_error_array[index]))
+    bv_error.append(quad_quad_error(b_mag_error_array[index], v_mag_error_array[index], std_dev_b_zp, std_dev_v_zp))
 
 for value in bv_error:
     bv_error_file.write(str(value) + '\n')
