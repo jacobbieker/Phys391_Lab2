@@ -116,14 +116,44 @@ with open('b_mag_error.txt', 'r') as error_b:
         col = line.split()
         b_zero_point_error.append(float(col[1]))
 
-zp_error_b = quad_array_error(b_zero_point_error)
+b_zero_point_error_avg = 0
+for index in b_zero_point_error:
+    b_zero_point_error_avg += index
+
+b_zero_point_error_avg /= len(b_zero_point_error)
+
+std_dev_b_zp = 10
+#Finds Standard Deviation for B_zp_error
+diffsquared_b_zp = 0
+sum_diffsquared_b_zp = 0
+for val in b_zero_point_error:
+    diffsquared_b_zp = (val-b_zero_point_error_avg)**2
+    sum_diffsquared_b_zp = diffsquared_b_zp + sum_diffsquared_b_zp
+    std_dev_b_zp = (((sum_diffsquared_b_zp)/(len(b_zero_point_error) - 1))**(1/2))
+
+zp_error_b = std_dev_b_zp
+
 with open('v_mag_error.txt', 'r') as error_v:
     for line in error_v:
         line = line.strip()
         col = line.split()
         v_zero_point_error.append(float(col[1]))
 
-zp_error_v = quad_array_error(v_zero_point_error)
+v_zero_point_error_avg = 0
+for index in v_zero_point_error:
+    v_zero_point_error_avg += index
+
+v_zero_point_error_avg /= len(v_zero_point_error)
+std_dev_v_zp = 10
+#Finds Standard Deviation for B_zp_error
+diffsquared_v_zp = 0
+sum_diffsquared_v_zp = 0
+for val in b_zero_point_error:
+    diffsquared_v_zp = (val-v_zero_point_error_avg)**2
+    sum_diffsquared_v_zp = diffsquared_v_zp + sum_diffsquared_v_zp
+    std_dev_v_zp = (((sum_diffsquared_v_zp)/(len(v_zero_point_error) - 1))**(1/2))
+
+zp_error_v = std_dev_v_zp
 
 b_zero_point_avg = 0
 v_zero_point_avg = 0
@@ -174,7 +204,7 @@ for val in v_zero_points:
 ordered_b_flux = []
 ordered_v_flux = []
 
-print("B-ZP-AVG: " + str(b_zero_point_avg) + " +- " + str(std_dev_b) + " ZP Error: " + str(zp_error_b) + " Total Error: " + str(std_dev_b+zp_error_b) + "\n" + " V-ZP: " + str(v_zero_point_avg) + " +- " + str(std_dev_v) + " ZP Error: " + str(zp_error_v) +" Total Error: " + str(std_dev_v+zp_error_v))
+print("B-ZP-AVG: " + str(b_zero_point_avg) + " +- " + str(std_dev_b) + " ZP Error: " + str(zp_error_b) + " Total Error: " + str(std_dev_b+std_dev_b_zp) + "\n" + " V-ZP: " + str(v_zero_point_avg) + " +- " + str(std_dev_v) + " ZP Error: " + str(std_dev_v_zp) +" Total Error: " + str(std_dev_v+zp_error_v))
 corrected_data_file = open('corrected_data_b.txt', 'w')
 with open('b_mag_data') as bdf:
     for lines in bdf:
